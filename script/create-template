@@ -1,0 +1,9 @@
+#!/bin/bash -eu
+
+python michizure.py > work/template.json
+
+.venv/bin/aws cloudformation validate-template --template-body "$(cat work/template.json)"
+
+echo ''
+echo "$(tput setaf 2)Template is valid.$(tput sgr0)"
+echo ''
