@@ -1,4 +1,5 @@
 import logging
+import subprocess
 from pprint import PrettyPrinter
 
 from troposphere import Template
@@ -9,8 +10,13 @@ log = logging.getLogger(__name__)
 pp = PrettyPrinter(indent=3)
 
 
+def current_git_revision():
+  p = subprocess.run(['git', 'rev-parse', 'HEAD'], stdout=subprocess.PIPE)
+  return p.stdout.decode().strip()
+
+
 def construct_template():
-  t = Template('Michizure')
+  t = Template('Michizure - Git revision: {}'.format(current_git_revision()))
 
   lambda_michizure_role = t.add_resource(iam.lambda_michizure_role())
   events_invoke_lambda_role = t.add_resource(iam.events_invoke_lambda_role())
