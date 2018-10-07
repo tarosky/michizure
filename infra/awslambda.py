@@ -3,8 +3,12 @@ from pprint import PrettyPrinter
 
 from troposphere import GetAtt, Ref, awslambda
 
+from infra import util
+
 log = logging.getLogger(__name__)
 pp = PrettyPrinter(indent=3)
+
+util.patch_events()
 
 
 def get_code():
@@ -18,7 +22,7 @@ def michizure_function(lambda_michizure_role):
       Code=awslambda.Code(ZipFile=get_code()),
       Handler='index.lambda_handler',
       Role=GetAtt(lambda_michizure_role, 'Arn'),
-      Runtime='python2.7',
+      Runtime='python3.6',
       Timeout=20)
 
 
