@@ -12,16 +12,14 @@ def lambda_handler(ev, ctx):
       'Task created on *.').format(image_id)
 
   snapshots = ec2.describe_snapshots(
-      Filters=[
-          {
-              'Name':
+      Filters=[{
+          'Name':
               'description',
-              'Values': [
-                  'Created by CreateImage(*) for {} from *'.format(image_id),
-                  copyied_ami_desc,
-              ],
-          },
-      ])
+          'Values': [
+              'Created by CreateImage(*) for {} from *'.format(image_id),
+              copyied_ami_desc,
+          ],
+      }])
 
   for snap in snapshots['Snapshots']:
     ec2.delete_snapshot(SnapshotId=snap['SnapshotId'])

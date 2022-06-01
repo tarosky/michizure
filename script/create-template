@@ -2,7 +2,7 @@
 
 python michizure.py > work/michizure.json
 
-.venv/bin/aws cloudformation validate-template --template-body "$(cat work/michizure.json)"
+.venv/bin/aws cloudformation validate-template --template-body "$(cat work/michizure.json)" > /dev/null
 
 echo ''
 echo "$(tput setaf 2)Template is valid.$(tput sgr0)"

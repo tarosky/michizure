@@ -22,7 +22,7 @@ def michizure_function(lambda_michizure_role):
       Code=awslambda.Code(ZipFile=get_code()),
       Handler='index.lambda_handler',
       Role=GetAtt(lambda_michizure_role, 'Arn'),
-      Runtime='python3.6',
+      Runtime='python3.9',
       Timeout=20)
 
 
