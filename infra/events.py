@@ -22,5 +22,5 @@ def michizure_event_rule(events_invoke_lambda_role, michizure_function):
       State='ENABLED',
       Targets=[
           events.Target(
-              Arn=GetAtt(michizure_function, 'Arn'), Id='MichizureFunction')
+              Arn=GetAtt(michizure_function, 'Arn'), Id='MichizureFunction'),
       ])

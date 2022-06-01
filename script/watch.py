@@ -5,23 +5,35 @@ import sys
 from pprint import PrettyPrinter
 
 import autopep8
-from isort import SortImports
+import isort
 from yapf.yapflib.yapf_api import FormatCode
 
 log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
 pp = PrettyPrinter(indent=3)
 
 python_re = re.compile(r'\.py$')
+vscode_temp_file_re = re.compile(r'\.py\.[0-9a-f]+\.py$')
 
 
 def is_python(path):
   return bool(re.search(python_re, path))
 
 
+def get_paths_by_os(line):
+  if sys.platform == 'linux':
+    return line.rstrip().split(' ')
+  elif sys.platform == 'darwin':
+    dir = line.rstrip()
+    return (dir, None)
+  else:
+    raise Exception('Unavailable OS.')
+
+
 def updated_paths():
   for line in sys.stdin:
     print(line)
-    vals = line.rstrip().split(' ')
+    vals = get_paths_by_os(line)
     if len(vals) == 3:
       dir, _, file = vals
       yield dir + file
@@ -53,7 +65,9 @@ def beautify_with_autopep8_yapf_isort(path):
   except SyntaxError as e:
     print(e)
     return False
-  isorted_contents = SortImports(file_contents=yapfed_contents).output
+
+  isorted_contents = isort.code(
+      yapfed_contents, config=isort.Config(settings_path='.'))
 
   if contents == isorted_contents:
     return False
@@ -61,8 +75,15 @@ def beautify_with_autopep8_yapf_isort(path):
   return True
 
 
+def ignore_pattern(path):
+  return bool(re.search(vscode_temp_file_re, path))
+
+
 if __name__ == '__main__':
   for path in updated_paths():
+    if ignore_pattern(path):
+      continue
+
     if is_python(path):
       if beautify_with_autopep8_yapf_isort(path):
         continue

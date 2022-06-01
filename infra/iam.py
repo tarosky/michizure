@@ -9,38 +9,37 @@ pp = PrettyPrinter(indent=3)
 
 def michizure_role_policy():
   return {
-      'Version': '2012-10-17',
-      'Statement': [
-          {
-              'Effect': 'Allow',
-              'Action': [
-                  'ec2:DescribeSnapshots',
-                  'ec2:DeleteSnapshot',
-              ],
-              'Resource': ['*'],
-          },
-      ],
+      'Version':
+          '2012-10-17',
+      'Statement': [{
+          'Effect': 'Allow',
+          'Action': [
+              'ec2:DescribeSnapshots',
+              'ec2:DeleteSnapshot',
+          ],
+          'Resource': ['*'],
+      }],
   }
 
 
 def lambda_assume_role_policy():
   return {
-      'Version': '2012-10-17',
-      'Statement': [
-          {
-              'Effect': 'Allow',
-              'Principal': {
-                  'Service': 'lambda.amazonaws.com'
-              },
-              'Action': 'sts:AssumeRole'
-          }
-      ]
+      'Version':
+          '2012-10-17',
+      'Statement': [{
+          'Effect': 'Allow',
+          'Principal': {
+              'Service': 'lambda.amazonaws.com',
+          },
+          'Action': 'sts:AssumeRole',
+      }],
   }
 
 
 def lambda_role_policy():
   return {
-      'Version': '2012-10-17',
+      'Version':
+          '2012-10-17',
       'Statement': [
           {
               'Action': ['logs:*'],
@@ -67,8 +66,7 @@ def lambda_michizure_role():
       'LambdaMichizureRole',
       AssumeRolePolicyDocument=lambda_assume_role_policy(),
       Policies=[
-          iam.Policy(
-              PolicyName='lambda', PolicyDocument=lambda_role_policy()),
+          iam.Policy(PolicyName='lambda', PolicyDocument=lambda_role_policy()),
           iam.Policy(
               PolicyName='michizure', PolicyDocument=michizure_role_policy()),
       ])
@@ -76,30 +74,28 @@ def lambda_michizure_role():
 
 def events_invoke_lambda_role_policy():
   return {
-      'Version': '2012-10-17',
-      'Statement': [
-          {
-              'Effect': 'Allow',
-              'Action': ['lambda:InvokeFunction'],
-              'Resource': ['*']
-          }
-      ]
+      'Version':
+          '2012-10-17',
+      'Statement': [{
+          'Effect': 'Allow',
+          'Action': ['lambda:InvokeFunction'],
+          'Resource': ['*'],
+      }],
   }
 
 
 def events_invoke_lambda_assume_role_policy():
   return {
-      'Version': '2012-10-17',
-      'Statement': [
-          {
-              'Sid': '',
-              'Effect': 'Allow',
-              'Principal': {
-                  'Service': 'events.amazonaws.com'
-              },
-              'Action': 'sts:AssumeRole'
-          }
-      ]
+      'Version':
+          '2012-10-17',
+      'Statement': [{
+          'Sid': '',
+          'Effect': 'Allow',
+          'Principal': {
+              'Service': 'events.amazonaws.com',
+          },
+          'Action': 'sts:AssumeRole',
+      }],
   }
 
 
