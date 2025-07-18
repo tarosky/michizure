@@ -1,9 +1,0 @@
-autopep8==2.0.1
-awscli==1.27.78
-boto3==1.26.78
-flake8==6.0.0
-isort==5.12.0
-pep8==1.7.1
-pip==23.0.1
-troposphere==4.3.0
-yapf==0.32.0
