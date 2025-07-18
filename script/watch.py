@@ -6,6 +6,7 @@ from pprint import PrettyPrinter
 
 import autopep8
 import isort
+from yapf.yapflib.errors import YapfError
 from yapf.yapflib.yapf_api import FormatCode
 
 log = logging.getLogger(__name__)
@@ -61,8 +62,8 @@ def beautify_with_autopep8_yapf_isort(path):
   autopep8ed_contents = autopep8.fix_code(contents, apply_config=True)
   try:
     yapfed_contents, _ = FormatCode(
-        autopep8ed_contents, filename=path, style_config='setup.cfg')
-  except SyntaxError as e:
+        autopep8ed_contents, filename=path, style_config='./pyproject.toml')
+  except (SyntaxError, YapfError) as e:
     print(e)
     return False
 

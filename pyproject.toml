@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "michizure"
+version = "0.1.0"
+description = ""
+authors = ["Akihiro Harai <akihiro.harai@tarosky.co.jp>"]
+readme = "README.md"
+package-mode = false
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "~3.13"
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "*"
+awscli = "^1.27.132"
+boto3 = "^1.35.29"
+flake8 = "*"
+isort = "*"
+pep8 = "*"
+troposphere = "^4.9.3"
+yapf = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+order_by_type = true
+balanced_wrapping = true
+multi_line_output = 3
+
+[tool.autopep8]
+select = "E3"
+
+[tool.yapf]
+based_on_style = "google"
+split_before_first_argument = true
+dedent_closing_brackets = false
+indent_width = 2
+allow_split_before_dict_value = false
+indent_dictionary_value = false
